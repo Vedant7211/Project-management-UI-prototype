@@ -6,6 +6,7 @@ import { ChevronDown } from 'lucide-react';
 import BoardColumn from '@/components/BoardColumn';
 import TaskCard from '@/components/TaskCard';
 import TaskModal from '@/components/TaskModal';
+import { toast } from 'sonner';
 
 export type Task = {
   id: string;
@@ -162,6 +163,23 @@ export default function Board() {
 
       if (!sourceColumn || !task) return prevColumns;
 
+      // Only show toast if the column has changed
+      if (sourceColumn.id !== targetColumnId) {
+        const targetColumn = newColumns.find(c => c.id === targetColumnId);
+        if (targetColumn) {
+          const toastMessage = `Task "${task.title}" moved to "${targetColumn.title}".`;
+          if (targetColumn.id === 'done') {
+            toast.success(toastMessage, { style: { backgroundColor: '#10b981', color: 'white' } });
+          } else if (targetColumn.id === 'in-progress') {
+            toast.warning(toastMessage, { style: { backgroundColor: '#f59e0b', color: 'white' } });
+          } else if (targetColumn.id === 'review') {
+            toast.info(toastMessage, { style: { backgroundColor: '#f97316', color: 'white' } });
+          } else {
+            toast.info(toastMessage);
+          }
+        }
+      }
+
       // Remove task from source column
       sourceColumn.tasks.splice(taskIndex, 1);
 
@@ -199,12 +217,23 @@ export default function Board() {
   };
 
   const handleDeleteTask = (taskId: string) => {
-    setColumns((prevColumns) =>
-      prevColumns.map((col) => ({
-        ...col,
-        tasks: col.tasks.filter((t) => t.id !== taskId),
-      }))
-    );
+    let deletedTaskTitle = '';
+    setColumns((prevColumns) => {
+      const newColumns = prevColumns.map((col) => {
+        const taskToDelete = col.tasks.find((t) => t.id === taskId);
+        if (taskToDelete) {
+          deletedTaskTitle = taskToDelete.title;
+        }
+        return {
+          ...col,
+          tasks: col.tasks.filter((t) => t.id !== taskId),
+        };
+      });
+      if (deletedTaskTitle) {
+        toast.error(`Task "${deletedTaskTitle}" deleted.`, { style: { backgroundColor: '#ef4444', color: 'white' } });
+      }
+      return newColumns;
+    });
   };
 
   const handleSaveTask = (task: Omit<Task, 'id' | 'columnId'>) => {
@@ -218,6 +247,7 @@ export default function Board() {
           ),
         }))
       );
+      toast.success(`Task "${task.title}" updated.`, { style: { backgroundColor: '#10b981', color: 'white' } });
     } else {
       // Create new task
       const newTask: Task = {
@@ -232,6 +262,7 @@ export default function Board() {
             : col
         )
       );
+      toast.success(`Task "${task.title}" created.`, { style: { backgroundColor: '#10b981', color: 'white' } });
     }
     setIsModalOpen(false);
     setEditingTask(null);

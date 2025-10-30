@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
+import { Toaster } from "@/components/ui/sonner";
 
 const aeonik = localFont({
   src: [
@@ -45,6 +46,7 @@ export default function RootLayout({
         style={{ fontFamily: "var(--font-aeonik)" }}
       >
         {children}
+        <Toaster />
       </body>
     </html>
   );
