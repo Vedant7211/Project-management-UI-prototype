@@ -1,36 +1,43 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Project Management Dashboard
+
+This is a modern, intuitive project management dashboard built with Next.js and Tailwind CSS. It provides a comprehensive set of tools to track your projects, manage tasks, and visualize your team's workload in a clean, user-friendly interface.
+
+## Features
+
+- **Interactive Dashboard**: Get a quick overview of your projects, tasks, and team workload with a variety of charts and stats.
+- **Drag-and-Drop Task Board**: Manage your tasks with a Jira-style board that supports drag-and-drop functionality between columns.
+- **Gantt Chart**: Visualize your project timelines and track progress with an interactive Gantt chart.
+- **Project Details Page**: Dive deep into your projects with a detailed view that includes a description, attachments, and a comment section.
+- **Responsive Design**: The dashboard is fully responsive and works seamlessly on all devices.
 
 ## Getting Started
 
-First, run the development server:
+To get started with the project, follow these steps:
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+1. **Clone the repository**:
+   ```bash
+   git clone https://github.com/your-username/your-repo-name.git
+   ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. **Install the dependencies**:
+   ```bash
+   npm install
+   ```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+3. **Run the development server**:
+   ```bash
+   npm run dev
+   ```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+4. **Open your browser** and navigate to `http://localhost:3000` to see the dashboard in action.
 
-## Learn More
+## Technologies Used
 
-To learn more about Next.js, take a look at the following resources:
+- **Next.js**: A popular React framework for building server-rendered applications.
+- **Tailwind CSS**: A utility-first CSS framework for creating custom designs.
+- **TypeScript**: A statically typed superset of JavaScript that adds type safety to your code.
+- **Dnd Kit**: A modern, lightweight, and extensible drag-and-drop library for React.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Contributing
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Contributions are welcome! If you have any ideas, suggestions, or bug reports, please open an issue or submit a pull request.
