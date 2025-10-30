@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import Sidebar from '@/components/Sidebar';
 import Header from '@/components/Header';
-import Board from '@/components/Board';
+import Board from '../../components/Board';
 
 export default function BoardPage() {
   const [isCollapsed, setIsCollapsed] = useState(false);

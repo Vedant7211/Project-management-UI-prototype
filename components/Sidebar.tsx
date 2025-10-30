@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 const menuItems = [
-  { iconSrc: '/dashboardMain.svg', label: 'Dashboard', path: '/', active: false },
+  { iconSrc: '/DashboardMain.svg', label: 'Dashboard', path: '/', active: false },
   { iconSrc: '/briefcase.svg', label: 'Projects', path: '/board', active: false },
   { iconSrc: '/task.svg', label: 'Tasks', path: '/tasks', active: false },
   { iconSrc: '/dashboard.svg', label: 'Dashboard', path: '/dashboard-alt', active: false },
@@ -41,12 +41,12 @@ export default function Sidebar({ isCollapsed, setIsCollapsed }: SidebarProps) {
       {/* Create New Project Button */}
       {!isCollapsed ? (
         <Link href="/board" className="bg-white text-black rounded-full py-3 px-4 mb-6 flex items-center gap-2 hover:bg-gray-100 transition-colors">
-          <Image src="/plus.svg" alt="Plus Icon" width={20} height={20} />
+          <Image src="/PLUS.svg" alt="Plus Icon" width={20} height={20} />
           <span className="text-sm font-medium">Create new project</span>
         </Link>
       ) : (
         <Link href="/board" className="bg-white text-black rounded-full w-12 h-12 mb-6 flex items-center justify-center hover:bg-gray-100 transition-colors mx-auto">
-          <Image src="/plus.svg" alt="Plus Icon" width={24} height={24} />
+          <Image src="/PLUS.svg" alt="Plus Icon" width={24} height={24} />
         </Link>
       )}
 
