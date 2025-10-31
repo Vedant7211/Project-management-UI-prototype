@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { ArrowLeft, Paperclip, Link as LinkIcon, Copy, Check, MoreHorizontal, ChevronDown, ChevronUp, Plus } from 'lucide-react';
+import BulkTaskEditModal, { EditableTask } from '@/components/BulkTaskEditModal';
 import { useRouter } from 'next/navigation';
 
 type Comment = {
@@ -20,8 +21,25 @@ type Attachment = {
   thumbnail?: string;
 };
 
+const initialChildTasks: EditableTask[] = [
+  {
+    id: '101',
+    title: 'Design homepage mockup',
+    assignee: 'JD',
+    status: 'To do',
+  },
+  {
+    id: '102',
+    title: 'Update navigation structure',
+    assignee: 'SS',
+    status: 'To do',
+  },
+];
+
 export default function ProjectDetail({ projectId }: { projectId: string }) {
   const router = useRouter();
+  const [isBulkEditModalOpen, setIsBulkEditModalOpen] = useState(false);
+  const [childTasks, setChildTasks] = useState<EditableTask[]>(initialChildTasks);
   const [status] = useState('In progress');
   const [showDetails, setShowDetails] = useState(true);
   const [commentText, setCommentText] = useState('');
@@ -106,8 +124,12 @@ export default function ProjectDetail({ projectId }: { projectId: string }) {
               <button className="p-2 hover:bg-white rounded-lg transition-colors">
                 <MoreHorizontal className="w-4 h-4 text-gray-600" />
               </button>
-              <button className="px-4 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600 transition-colors text-sm font-medium">
-                Issue action
+              <button 
+                onClick={() => setIsBulkEditModalOpen(true)}
+                className="px-4 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600 transition-colors text-sm font-medium flex items-center gap-2"
+              >
+                <Plus className="w-4 h-4"/>
+                Bulk Edit Tasks
               </button>
             </div>
           </div>
@@ -188,58 +210,25 @@ export default function ProjectDetail({ projectId }: { projectId: string }) {
             </div>
           </div>
 
-          {/* Child Issues */}
-          <div className="mb-6">
-            <div className="flex items-center justify-between mb-3">
-              <div className="flex items-center gap-2">
-                <h3 className="text-sm font-semibold text-gray-900">Child issues</h3>
-                <span className="text-xs text-gray-500">0% Done</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <button className="text-xs text-gray-600 hover:text-gray-900">Order by</button>
-                <button className="p-1 hover:bg-gray-100 rounded transition-colors">
-                  <MoreHorizontal className="w-4 h-4 text-gray-600" />
-                </button>
-                <button className="p-1 hover:bg-gray-100 rounded transition-colors">
-                  <Plus className="w-4 h-4 text-gray-600" />
-                </button>
-              </div>
-            </div>
-            <div className="h-1 bg-gray-200 rounded-full mb-4">
-              <div className="h-1 bg-orange-500 rounded-full" style={{ width: '0%' }}></div>
-            </div>
-            <div className="space-y-2">
-              <div className="flex items-center justify-between p-3 rounded-lg hover:bg-gray-50 transition-colors" style={{ backgroundColor: 'rgba(255, 255, 255, 0.5)' }}>
-                <div className="flex items-center gap-3">
-                  <span className="text-xs font-medium text-orange-600">PROJ-101</span>
-                  <span className="text-sm text-gray-900">Design homepage mockup</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <div
-                    className="w-6 h-6 rounded-full flex items-center justify-center text-xs font-semibold text-white"
-                    style={{ backgroundColor: getInitialsColor('JD') }}
-                  >
-                    JD
+          {/* Child Issues List - Simplified from before */}
+          <div className="space-y-2">
+              {childTasks.map(task => (
+                  <div key={task.id} className="flex items-center justify-between p-3 rounded-lg hover:bg-gray-50 transition-colors" style={{ backgroundColor: 'rgba(255, 255, 255, 0.5)' }}>
+                      <div className="flex items-center gap-3">
+                          <span className="text-xs font-medium text-orange-600">PROJ-{task.id}</span>
+                          <span className="text-sm text-gray-900">{task.title}</span>
+                      </div>
+                      <div className="flex items-center gap-2">
+                          <div
+                              className="w-6 h-6 rounded-full flex items-center justify-center text-xs font-semibold text-white"
+                              style={{ backgroundColor: getInitialsColor(task.assignee) }}
+                          >
+                              {task.assignee}
+                          </div>
+                          <span className="px-2 py-1 bg-gray-100 text-gray-700 rounded text-xs font-medium">{task.status.toUpperCase()}</span>
+                      </div>
                   </div>
-                  <span className="px-2 py-1 bg-gray-100 text-gray-700 rounded text-xs font-medium">TO DO</span>
-                </div>
-              </div>
-              <div className="flex items-center justify-between p-3 rounded-lg hover:bg-gray-50 transition-colors" style={{ backgroundColor: 'rgba(255, 255, 255, 0.5)' }}>
-                <div className="flex items-center gap-3">
-                  <span className="text-xs font-medium text-orange-600">PROJ-102</span>
-                  <span className="text-sm text-gray-900">Update navigation structure</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <div
-                    className="w-6 h-6 rounded-full flex items-center justify-center text-xs font-semibold text-white"
-                    style={{ backgroundColor: getInitialsColor('SS') }}
-                  >
-                    SS
-                  </div>
-                  <span className="px-2 py-1 bg-gray-100 text-gray-700 rounded text-xs font-medium">TO DO</span>
-                </div>
-              </div>
-            </div>
+              ))}
           </div>
         </div>
 
@@ -330,7 +319,18 @@ export default function ProjectDetail({ projectId }: { projectId: string }) {
             )}
           </button>
 
-          {showDetails && (
+          {isBulkEditModalOpen && (
+        <BulkTaskEditModal 
+            initialTasks={childTasks}
+            onClose={() => setIsBulkEditModalOpen(false)}
+            onSave={(updatedTasks) => {
+                setChildTasks(updatedTasks);
+                setIsBulkEditModalOpen(false);
+            }}
+        />
+      )}
+
+      {showDetails && (
             <div className="space-y-4">
               {/* Assignee */}
               <div>

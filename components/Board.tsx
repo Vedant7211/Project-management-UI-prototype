@@ -109,7 +109,7 @@ export default function Board() {
   const [activeTask, setActiveTask] = useState<Task | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingTask, setEditingTask] = useState<Task | null>(null);
-  const [targetColumnId, setTargetColumnId] = useState<string>('');
+    const [targetColumnId, setTargetColumnId] = useState<string>('');
 
   const sensors = useSensors(
     useSensor(PointerSensor, {
@@ -268,6 +268,7 @@ export default function Board() {
     setEditingTask(null);
   };
 
+  
   return (
     <div>
       {/* Header */}
@@ -317,6 +318,7 @@ export default function Board() {
           onSave={handleSaveTask}
         />
       )}
-    </div>
+
+          </div>
   );
 }
